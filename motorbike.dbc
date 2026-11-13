@@ -1,3 +1,4 @@
+
 VERSION ""
 
 NS_ :
@@ -25,59 +26,83 @@ NS_ :
 
 BS_:
 
-BU_: VCU WheelSpeedSensor MotorController TempSensors BMS IMU
+BU_: VCU BMS LeanAngle Motor Rear Front BrakeSensors Radiator Inverter Temperature
 
-BO_ 256 WheelSpeed: 8 WheelSpeedSensor
- SG_ Speed_kmh : 0|16@1+ (0.1,0) [0|300] "km/h" VCU
-
-BO_ 257 MotorRPM: 8 MotorController
- SG_ Motor_RPM : 0|16@1+ (1,0) [0|20000] "rpm" VCU
-
-BO_ 258 MotorTemp: 8 TempSensors
- SG_ Motor_Temp_C : 0|16@1- (0.1,0) [-40|200] "degC" VCU
-
-BO_ 259 CoolantTemp: 8 TempSensors
- SG_ Coolant_In_C : 0|16@1- (0.1,0) [-40|150] "degC" VCU
- SG_ Coolant_Out_C : 16|16@1- (0.1,0) [-40|150] "degC" VCU
-
-BO_ 260 BatteryTemp: 8 BMS
+BO_ 1 BatteryTemp: 8 BMS
  SG_ Batt_Temp_Max_C : 0|16@1- (0.1,0) [-40|100] "degC" VCU
  SG_ Batt_Temp_Min_C : 16|16@1- (0.1,0) [-40|100] "degC" VCU
  SG_ Batt_Temp_Avg_C : 32|16@1- (0.1,0) [-40|100] "degC" VCU
 
-BO_ 261 BatteryVoltage: 8 BMS
- SG_ Pack_Voltage_V : 0|16@1+ (0.1,0) [0|500] "V" VCU
+BO_ 2 LeanIMU: 8 LeanAngle
+ SG_ Lean_Angle_Raw : 0|16@1- (1,0) [-32768|32767] "raw" VCU
+ SG_ Accel_X : 16|16@1- (0.001,0) [-16|16] "g" VCU
+ SG_ Accel_Y : 32|16@1- (0.001,0) [-16|16] "g" VCU
+ SG_ Accel_Z : 48|16@1- (0.001,0) [-16|16] "g" VCU
 
-BO_ 262 BatteryCurrent: 8 BMS
- SG_ Pack_Current_A : 0|16@1- (0.1,0) [-500|500] "A" VCU
+BO_ 3 PowertrainRotationalSpeed: 8 Motor
+ SG_ Powertrain_RPM_Raw : 0|16@1+ (1,0) [0|65535] "rpm" VCU
 
-BO_ 263 InverterTemp: 8 MotorController
+BO_ 4 RearWheelSpeed: 8 Rear
+ SG_ Rear_Speed_kmh : 0|16@1+ (0.1,0) [0|300] "km/h" VCU
+
+BO_ 5 FrontWheelSpeed: 8 Front
+ SG_ Front_Speed_kmh : 0|16@1+ (0.1,0) [0|300] "km/h" VCU
+
+BO_ 6 BrakePressure: 8 BrakeSensors
+ SG_ Front_Brake_Pressure_Raw : 0|16@1+ (1,0) [0|65535] "raw" VCU
+ SG_ Rear_Brake_Pressure_Raw : 16|16@1+ (1,0) [0|65535] "raw" VCU
+
+BO_ 7 CoolingTemp: 8 Radiator
+ SG_ Coolant_In_C : 0|16@1- (0.1,0) [-40|150] "degC" VCU
+ SG_ Coolant_Out_C : 16|16@1- (0.1,0) [-40|150] "degC" VCU
+
+BO_ 8 MotorTemp: 8 Motor
+ SG_ Motor_Temp_C : 0|16@1- (0.1,0) [-40|200] "degC" VCU
+
+BO_ 9 InverterTemp: 8 Inverter
  SG_ Inverter_Temp_C : 0|16@1- (0.1,0) [-40|200] "degC" VCU
 
-BO_ 264 ImuAccel: 8 IMU
- SG_ Accel_X : 0|16@1- (0.001,0) [-16|16] "g" VCU
- SG_ Accel_Y : 16|16@1- (0.001,0) [-16|16] "g" VCU
- SG_ Accel_Z : 32|16@1- (0.001,0) [-16|16] "g" VCU
+BO_ 10 RadiatorTemp: 8 Radiator
+ SG_ Radiator_Temp_Raw : 0|16@1- (1,0) [-32768|32767] "raw" VCU
 
-BO_ 265 ImuGyro: 8 IMU
- SG_ Gyro_X : 0|16@1- (0.01,0) [-2000|2000] "deg/s" VCU
- SG_ Gyro_Y : 16|16@1- (0.01,0) [-2000|2000] "deg/s" VCU
- SG_ Gyro_Z : 32|16@1- (0.01,0) [-2000|2000] "deg/s" VCU
+BO_ 11 SuspensionTravel: 8 Front
+ SG_ Front_Suspension_Travel_Raw : 0|16@1+ (1,0) [0|65535] "raw" VCU
 
-CM_ BU_ VCU "The vehicle control unit - listens to all nodes and makes decisions.";
-CM_ BO_ 256 "Wheel speed sensor output. Used for speedometer and traction logic.";
-CM_ BO_ 262 "Signed: positive = discharging (powering the motor), negative = charging (regen/charger).";
-CM_ SG_ 264 Accel_X "Longitudinal acceleration (forward/back), in units of g (9.81 m/s^2).";
+BO_ 12 MotorRPM: 8 Motor
+ SG_ Motor_RPM : 0|16@1+ (1,0) [0|20000] "rpm" VCU
+
+BO_ 13 CoolantPumpRPM: 8 Radiator
+ SG_ Coolant_Pump_RPM_Raw : 0|16@1+ (1,0) [0|65535] "rpm" VCU
+
+BO_ 14 CoolantPumpFlow: 8 Radiator
+ SG_ Coolant_Flow_Raw : 0|16@1+ (1,0) [0|65535] "raw" VCU
+
+BO_ 15 IndividualBatteryTemp: 8 Temperature
+ SG_ Individual_Batt_Temp_Raw : 0|16@1- (1,0) [-32768|32767] "raw" VCU
+
+BO_ 16 BatteryVoltage: 8 BMS
+ SG_ Pack_Voltage_V : 0|16@1+ (0.1,0) [0|500] "V" VCU
+
+BO_ 17 BatteryCurrent: 8 BMS
+ SG_ Pack_Current_A : 0|16@1- (0.1,0) [-500|500] "A" VCU
 
 BA_DEF_ BO_ "GenMsgCycleTime" INT 0 10000;
 BA_DEF_DEF_ "GenMsgCycleTime" 100;
-BA_ "GenMsgCycleTime" BO_ 256 20;
-BA_ "GenMsgCycleTime" BO_ 257 10;
-BA_ "GenMsgCycleTime" BO_ 258 100;
-BA_ "GenMsgCycleTime" BO_ 259 100;
-BA_ "GenMsgCycleTime" BO_ 260 100;
-BA_ "GenMsgCycleTime" BO_ 261 100;
-BA_ "GenMsgCycleTime" BO_ 262 20;
-BA_ "GenMsgCycleTime" BO_ 263 100;
-BA_ "GenMsgCycleTime" BO_ 264 10;
-BA_ "GenMsgCycleTime" BO_ 265 10;
+
+BA_ "GenMsgCycleTime" BO_ 1 100;
+BA_ "GenMsgCycleTime" BO_ 2 10;
+BA_ "GenMsgCycleTime" BO_ 3 10;
+BA_ "GenMsgCycleTime" BO_ 4 20;
+BA_ "GenMsgCycleTime" BO_ 5 20;
+BA_ "GenMsgCycleTime" BO_ 6 20;
+BA_ "GenMsgCycleTime" BO_ 7 100;
+BA_ "GenMsgCycleTime" BO_ 8 100;
+BA_ "GenMsgCycleTime" BO_ 9 100;
+BA_ "GenMsgCycleTime" BO_ 10 100;
+BA_ "GenMsgCycleTime" BO_ 11 20;
+BA_ "GenMsgCycleTime" BO_ 12 10;
+BA_ "GenMsgCycleTime" BO_ 13 100;
+BA_ "GenMsgCycleTime" BO_ 14 100;
+BA_ "GenMsgCycleTime" BO_ 15 100;
+BA_ "GenMsgCycleTime" BO_ 16 100;
+BA_ "GenMsgCycleTime" BO_ 17 20;
